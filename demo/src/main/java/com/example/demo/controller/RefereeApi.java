@@ -31,6 +31,6 @@ public class RefereeApi {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        refereeService.deleteReferee(id);
+        refereeService.delete(id);
     }
 }

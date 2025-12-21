@@ -26,7 +26,7 @@ public class MatchApi {
 
     @PostMapping
     public MatchDto create(@RequestBody MatchDto matchDto) {
-        return matchService.createMatch(matchDto);
+        return matchService.create(matchDto);
     }
 
     @DeleteMapping("/{id}")

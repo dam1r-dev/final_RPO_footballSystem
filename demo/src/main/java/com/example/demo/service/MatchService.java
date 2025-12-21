@@ -6,6 +6,7 @@ import java.util.List;
 public interface MatchService {
     List<MatchDto> getAllMatches();
     MatchDto getMatchById(Long id);
-    MatchDto createMatch(MatchDto matchDto);
+    MatchDto create(MatchDto matchDto);
     void deleteMatch(Long id);
+
 }

@@ -41,7 +41,7 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     @Transactional
-    public MatchDto createMatch(MatchDto matchDto) {
+    public MatchDto create(MatchDto matchDto) {
         Match match = new Match();
         match.setName(matchDto.getNameDto());
         match.setMatchDate(matchDto.getMatchDate());

@@ -7,5 +7,7 @@ public interface RefereeService {
     List<RefereeDto> getAllReferees();
     RefereeDto getRefereeById(Long id);
     RefereeDto createReferee(RefereeDto refereeDto);
-    void deleteReferee(Long id);
+    void delete(Long id);
+
+    RefereeDto getById(Long id);
 }

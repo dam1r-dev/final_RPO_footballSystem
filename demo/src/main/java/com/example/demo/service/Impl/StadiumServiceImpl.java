@@ -17,7 +17,7 @@ public class StadiumServiceImpl implements StadiumService {
     private final StadiumMapper stadiumMapper;
 
     @Override
-    public List<StadiumDto> getAllStadiums() {
+    public List<StadiumDto> getStadiumAll() {
         return stadiumRepository.findAll().stream()
                 .map(stadiumMapper::toDto)
                 .collect(Collectors.toList());

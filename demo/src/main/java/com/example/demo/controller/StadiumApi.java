@@ -16,7 +16,7 @@ public class StadiumApi {
 
     @GetMapping
     public List<StadiumDto> getAll() {
-        return stadiumService.getAllStadiums();
+        return stadiumService.getStadiumAll();
     }
 
     @GetMapping("/{id}")

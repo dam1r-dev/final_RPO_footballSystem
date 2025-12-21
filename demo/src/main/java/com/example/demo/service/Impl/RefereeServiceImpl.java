@@ -37,7 +37,12 @@ public class RefereeServiceImpl implements RefereeService {
     }
 
     @Override
-    public void deleteReferee(Long id) {
-        refereeRepository.deleteById(id);
+    public void delete(Long id) {
+
+    }
+
+    @Override
+    public RefereeDto getById(Long id) {
+        return null;
     }
 }
