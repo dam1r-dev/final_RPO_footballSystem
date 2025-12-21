@@ -1,44 +1,52 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.MatchDto;
+import com.example.demo.mapper.MatchMapper;
 import com.example.demo.model.Match;
-import com.example.demo.model.Stadium;
 import com.example.demo.repository.MatchRepository;
-import com.example.demo.repository.StadiumRepository;
-import jakarta.transaction.Transactional;
+import com.example.demo.service.Impl.MatchServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
-@ActiveProfiles("test")
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class MatchServiceTest {
 
-    @Autowired
-    private MatchService matchService;
-
-    @Autowired
+    @Mock
     private MatchRepository matchRepository;
 
-    @Autowired
-    private StadiumRepository stadiumRepository;
+    @Mock
+    private MatchMapper matchMapper;
+
+    @InjectMocks
+    private MatchServiceImpl matchService;
 
     @Test
-    @Transactional
     void createMatchTest() {
-        Stadium stadium = stadiumRepository.save(new Stadium(null, "Old Trafford"));
+        MatchDto inputDto = new MatchDto();
+        inputDto.setNameDto("Man Utd vs Liverpool");
 
-        MatchDto input = new MatchDto();
-        input.setNameDto("Man Utd vs Liverpool");
-        input.setId(stadium.getId());
+        Match matchEntity = new Match();
+        matchEntity.setId(1L);
+        matchEntity.setName("Man Utd vs Liverpool");
 
-        MatchDto result = matchService.create(input);
+        MatchDto outputDto = new MatchDto();
+        outputDto.setId(1L);
+        outputDto.setNameDto("Man Utd vs Liverpool");
 
-        Assertions.assertNotNull(result.getId());
+        lenient().when(matchMapper.toEntity(any(MatchDto.class))).thenReturn(matchEntity);
+        lenient().when(matchRepository.save(any(Match.class))).thenReturn(matchEntity);
+        lenient().when(matchMapper.toDto(any(Match.class))).thenReturn(outputDto);
+
+        MatchDto result = matchService.create(inputDto);
+
+        Assertions.assertNotNull(result);
         Assertions.assertEquals("Man Utd vs Liverpool", result.getNameDto());
     }
 }

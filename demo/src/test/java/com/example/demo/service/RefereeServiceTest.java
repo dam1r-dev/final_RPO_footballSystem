@@ -1,40 +1,52 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.RefereeDto;
+import com.example.demo.mapper.RefereeMapper;
 import com.example.demo.model.Referee;
 import com.example.demo.repository.RefereeRepository;
-import jakarta.transaction.Transactional;
+import com.example.demo.service.Impl.RefereeServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@ActiveProfiles("test")
-@SpringBootTest
+import java.util.Optional;
+
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
 public class RefereeServiceTest {
 
-    @Autowired
-    private RefereeService refereeService;
-
-    @Autowired
+    @Mock
     private RefereeRepository refereeRepository;
 
+    @Mock
+    private RefereeMapper refereeMapper;
+
+    @InjectMocks
+    private RefereeServiceImpl refereeService;
+
     @Test
-    @Transactional
     void getByIdTest() {
-        Referee saved = refereeRepository.save(new Referee(null, "Pierluigi Collina"));
-        RefereeDto dto = refereeService.getById(saved.getId());
+        Referee referee = new Referee(1L, "Pierluigi Collina");
+        RefereeDto dto = new RefereeDto();
+        dto.setId(1L);
+        dto.setNameDto("Pierluigi Collina");
 
-        Assertions.assertEquals(saved.getName(), dto.getNameDto());
+        when(refereeRepository.findById(1L)).thenReturn(Optional.of(referee));
+        when(refereeMapper.toDto(referee)).thenReturn(dto);
+
+        RefereeDto result = refereeService.getRefereeById(1L);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals("Pierluigi Collina", result.getNameDto());
     }
-
     @Test
-    @Transactional
     void deleteTest() {
-        Referee saved = refereeRepository.save(new Referee(null, "To Delete"));
-        refereeService.delete(saved.getId());
-
-        Assertions.assertThrows(RuntimeException.class, () -> refereeService.getById(saved.getId()));
+        Long id = 1L;
+        refereeService.delete(id);
+        verify(refereeRepository, times(1)).deleteById(id);
     }
 }

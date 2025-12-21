@@ -37,13 +37,13 @@ public class MatchMapperTest {
 
         Assertions.assertNotNull(dto);
         Assertions.assertEquals(match.getId(), dto.getId());
-        Assertions.assertEquals(match.getName(), dto.getNameDto()); // Проверь название поля в своем DTO!
+        Assertions.assertEquals(match.getName(), dto.getNameDto());
 
         Assertions.assertNotNull(dto.getStadium());
-        Assertions.assertEquals("Camp Nou", dto.getStadium().getName());
+        Assertions.assertEquals("Camp Nou", dto.getStadium().getNameDto());
 
         Assertions.assertNotNull(dto.getReferees());
         Assertions.assertEquals(2, dto.getReferees().size());
-        Assertions.assertEquals("Howard Webb", dto.getReferees().get(0).getName());
+        Assertions.assertEquals("Howard Webb", dto.getReferees().get(0).getNameDto());
     }
 }

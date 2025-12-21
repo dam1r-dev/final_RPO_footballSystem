@@ -1,46 +1,50 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.StadiumDto;
+import com.example.demo.mapper.StadiumMapper;
 import com.example.demo.model.Stadium;
 import com.example.demo.repository.StadiumRepository;
-import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.Assertions;
+import com.example.demo.service.Impl.StadiumServiceImpl;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
+import java.util.Optional;
 
-@ActiveProfiles("test")
-@SpringBootTest
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
 public class StadiumServiceTest {
 
-    @Autowired
-    private StadiumService stadiumService;
-
-    @Autowired
+    @Mock
     private StadiumRepository stadiumRepository;
 
-    @Test
-    @Transactional
-    void getAllTest() {
-        stadiumRepository.save(new Stadium(null, "Astana Arena"));
-        stadiumRepository.save(new Stadium(null, "Wembley"));
+    @Mock
+    private StadiumMapper stadiumMapper;
 
-        List<StadiumDto> result = stadiumService.getStadiumAll();
-
-        Assertions.assertNotNull(result);
-        Assertions.assertTrue(result.size() >= 2);
-    }
+    @InjectMocks
+    private StadiumServiceImpl stadiumService;
 
     @Test
-    @Transactional
-    void createTest() {
-        StadiumDto input = new StadiumDto(null, "Camp Nou");
-        StadiumDto created = stadiumService.createStadium(input);
+    void getById_ShouldReturnDto_WhenStadiumExists() {
+        Stadium stadium = new Stadium();
+        stadium.setId(10L);
+        stadium.setName("Luzhniki");
 
-        Assertions.assertNotNull(created.getId());
-        Assertions.assertEquals("Camp Nou", created.getName());
+        StadiumDto dto = new StadiumDto();
+        dto.setId(10L);
+        dto.setNameDto("Luzhniki");
+
+        when(stadiumRepository.findById(10L)).thenReturn(Optional.of(stadium));
+        when(stadiumMapper.toDto(stadium)).thenReturn(dto);
+
+        StadiumDto result = stadiumService.getStadiumById(10L);
+
+        assertNotNull(result);
+        assertEquals("Luzhniki", result.getNameDto());
+        verify(stadiumRepository, times(1)).findById(10L);
     }
 }

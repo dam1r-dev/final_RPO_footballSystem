@@ -25,7 +25,7 @@ public class RefereeMapperTest {
 
         Assertions.assertNotNull(dto);
         Assertions.assertEquals(referee.getId(), dto.getId());
-        Assertions.assertEquals(referee.getName(), dto.getName());
+        Assertions.assertEquals(referee.getName(), dto.getNameDto());
     }
 
     @Test
@@ -39,6 +39,6 @@ public class RefereeMapperTest {
 
         Assertions.assertNotNull(dtos);
         Assertions.assertEquals(2, dtos.size());
-        Assertions.assertEquals(referees.get(0).getName(), dtos.get(0).getName());
+        Assertions.assertEquals(referees.get(0).getName(), dtos.get(0).getNameDto());
     }
 }

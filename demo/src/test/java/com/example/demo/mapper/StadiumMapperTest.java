@@ -23,17 +23,19 @@ public class StadiumMapperTest {
 
         Assertions.assertNotNull(dto);
         Assertions.assertEquals(stadium.getId(), dto.getId());
-        Assertions.assertEquals(stadium.getName(), dto.getName());
+        Assertions.assertEquals(stadium.getName(), dto.getNameDto());
     }
 
     @Test
     void convertDtoToEntity() {
-        StadiumDto dto = new StadiumDto(2L, "Almaty Central");
+        StadiumDto dto = new StadiumDto();
+        dto.setId(2L);
+        dto.setNameDto("Almaty Central");
 
         Stadium stadium = stadiumMapper.toEntity(dto);
 
         Assertions.assertNotNull(stadium);
         Assertions.assertEquals(dto.getId(), stadium.getId());
-        Assertions.assertEquals(dto.getName(), stadium.getName());
+        Assertions.assertEquals(dto.getNameDto(), stadium.getName());
     }
 }

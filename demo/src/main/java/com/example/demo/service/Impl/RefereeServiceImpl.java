@@ -38,7 +38,7 @@ public class RefereeServiceImpl implements RefereeService {
 
     @Override
     public void delete(Long id) {
-
+        refereeRepository.deleteById(id);
     }
 
     @Override
