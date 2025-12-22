@@ -20,7 +20,6 @@ public class MatchServiceTest {
 
     @Mock
     private MatchRepository matchRepository;
-
     @Mock
     private MatchMapper matchMapper;
 

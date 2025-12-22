@@ -35,7 +35,9 @@ public class RefereeMapperTest {
                 new Referee(2L, "Referee 2")
         );
 
-        List<RefereeDto> dtos = refereeMapper.toDtoList(referees);
+        List<RefereeDto> dtos = referees.stream()
+                .map(refereeMapper::toDto)
+                .collect(java.util.stream.Collectors.toList());
 
         Assertions.assertNotNull(dtos);
         Assertions.assertEquals(2, dtos.size());

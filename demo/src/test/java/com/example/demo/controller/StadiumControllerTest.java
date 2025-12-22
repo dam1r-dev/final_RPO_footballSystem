@@ -28,7 +28,7 @@ public class StadiumControllerTest {
 
     @Test
     void getAll_ShouldReturnList() throws Exception {
-        StadiumDto dto = new StadiumDto(1L, "Old Trafford");
+        StadiumDto dto = new StadiumDto(1L, "Old Trafford", "Manchester");
 
         when(stadiumService.getStadiumAll()).thenReturn(List.of(dto));
 
@@ -38,7 +38,7 @@ public class StadiumControllerTest {
 
     @Test
     void create_ShouldReturnSavedStadium() throws Exception {
-        StadiumDto dto = new StadiumDto(1L, "Camp Nou");
+        StadiumDto dto = new StadiumDto(1L, "Camp Nou", "Barcelona");
 
         when(stadiumService.createStadium(any(StadiumDto.class))).thenReturn(dto);
 

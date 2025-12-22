@@ -17,13 +17,14 @@ public class StadiumMapperTest {
 
     @Test
     void convertEntityToDto() {
-        Stadium stadium = new Stadium(1L, "Astana Arena");
+        Stadium stadium = new Stadium(1L, "Astana Arena", "Astana");
 
         StadiumDto dto = stadiumMapper.toDto(stadium);
 
         Assertions.assertNotNull(dto);
         Assertions.assertEquals(stadium.getId(), dto.getId());
         Assertions.assertEquals(stadium.getName(), dto.getNameDto());
+        Assertions.assertEquals(stadium.getLocation(), dto.getLocationDto());
     }
 
     @Test
@@ -31,11 +32,13 @@ public class StadiumMapperTest {
         StadiumDto dto = new StadiumDto();
         dto.setId(2L);
         dto.setNameDto("Almaty Central");
+        dto.setLocationDto("Almaty");
 
         Stadium stadium = stadiumMapper.toEntity(dto);
 
         Assertions.assertNotNull(stadium);
         Assertions.assertEquals(dto.getId(), stadium.getId());
         Assertions.assertEquals(dto.getNameDto(), stadium.getName());
+        Assertions.assertEquals(dto.getLocationDto(), stadium.getLocation());
     }
 }

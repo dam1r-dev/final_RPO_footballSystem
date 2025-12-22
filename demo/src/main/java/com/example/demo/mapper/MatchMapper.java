@@ -15,20 +15,27 @@ public class MatchMapper {
 
     public MatchDto toDto(Match match) {
         if (match == null) return null;
-
         MatchDto dto = new MatchDto();
         dto.setId(match.getId());
         dto.setNameDto(match.getName());
         dto.setMatchDateDto(match.getMatchDate());
-
         if (match.getStadium() != null) {
             dto.setStadium(stadiumMapper.toDto(match.getStadium()));
         }
-
         if (match.getReferee() != null) {
             dto.setReferee(refereeMapper.toDto(match.getReferee()));
         }
-
         return dto;
+    }
+
+    public Match toEntity(MatchDto dto) {
+        if (dto == null) return null;
+
+        Match match = new Match();
+        match.setId(dto.getId());
+        match.setName(dto.getNameDto());
+        match.setMatchDate(dto.getMatchDateDto());
+
+        return match;
     }
 }

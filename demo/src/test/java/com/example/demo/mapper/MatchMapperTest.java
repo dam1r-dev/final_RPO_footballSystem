@@ -1,5 +1,4 @@
 package com.example.demo.mapper;
-
 import com.example.demo.dto.MatchDto;
 import com.example.demo.model.Match;
 import com.example.demo.model.Stadium;
@@ -22,16 +21,15 @@ public class MatchMapperTest {
 
     @Test
     void convertEntityToDto() {
-        Stadium stadium = new Stadium(1L, "Camp Nou");
+        Stadium stadium = new Stadium(1L, "Camp Nou", "Barcelona");
         Referee ref1 = new Referee(1L, "Howard Webb");
-        Referee ref2 = new Referee(2L, "Mark Clattenburg");
 
         Match match = new Match();
         match.setId(100L);
         match.setName("El Clasico");
         match.setMatchDate(LocalDateTime.now());
         match.setStadium(stadium);
-        match.setReferees(List.of(ref1, ref2));
+        match.setReferee(ref1);
 
         MatchDto dto = matchMapper.toDto(match);
 
@@ -42,8 +40,7 @@ public class MatchMapperTest {
         Assertions.assertNotNull(dto.getStadium());
         Assertions.assertEquals("Camp Nou", dto.getStadium().getNameDto());
 
-        Assertions.assertNotNull(dto.getReferees());
-        Assertions.assertEquals(2, dto.getReferees().size());
-        Assertions.assertEquals("Howard Webb", dto.getReferees().get(0).getNameDto());
+        Assertions.assertNotNull(dto.getReferee());
+        Assertions.assertEquals("Howard Webb", dto.getReferee().getNameDto());
     }
 }

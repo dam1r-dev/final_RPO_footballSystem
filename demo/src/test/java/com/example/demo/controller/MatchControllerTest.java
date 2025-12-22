@@ -41,9 +41,9 @@ public class MatchControllerTest {
 
         MatchDto matchDto = new MatchDto();
         matchDto.setNameDto("Final Match");
-        matchDto.setMatchDate(LocalDateTime.of(2025, 12, 22, 12, 0));
+        matchDto.setMatchDateDto(LocalDateTime.of(2025, 12, 22, 12, 0));
         matchDto.setStadium(stadiumDto);
-        matchDto.setReferees(List.of(refereeDto));
+        matchDto.setReferee(refereeDto);
 
         when(matchService.create(any(MatchDto.class))).thenReturn(matchDto);
 
