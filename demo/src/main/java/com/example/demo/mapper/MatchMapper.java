@@ -9,32 +9,26 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class MatchMapper {
+
     private final StadiumMapper stadiumMapper;
     private final RefereeMapper refereeMapper;
 
     public MatchDto toDto(Match match) {
         if (match == null) return null;
-        return new MatchDto(
-                match.getId(),
-                match.getName(),
-                match.getMatchDate(),
-                stadiumMapper.toDto(match.getStadium()),
-                match.getReferees() != null ? match.getReferees().stream()
-                        .map(refereeMapper::toDto)
-                        .collect(Collectors.toList()) : null
-        );
-    }
 
-    public Match toEntity(MatchDto dto) {
-        if (dto == null) return null;
-        return new Match(
-                dto.getId(),
-                dto.getNameDto(),
-                dto.getMatchDate(),
-                stadiumMapper.toEntity(dto.getStadium()),
-                dto.getReferees() != null ? dto.getReferees().stream()
-                        .map(refereeMapper::toEntity)
-                        .collect(Collectors.toList()) : null
-        );
+        MatchDto dto = new MatchDto();
+        dto.setId(match.getId());
+        dto.setNameDto(match.getName());
+        dto.setMatchDateDto(match.getMatchDate());
+
+        if (match.getStadium() != null) {
+            dto.setStadium(stadiumMapper.toDto(match.getStadium()));
+        }
+
+        if (match.getReferee() != null) {
+            dto.setReferee(refereeMapper.toDto(match.getReferee()));
+        }
+
+        return dto;
     }
 }

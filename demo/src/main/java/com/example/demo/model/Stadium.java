@@ -2,22 +2,23 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
+@Table(name = "t_stadium")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "t_stadium")
 public class Stadium {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "stadium_id")
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "t_name")
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "location")
+    private String location;
 }

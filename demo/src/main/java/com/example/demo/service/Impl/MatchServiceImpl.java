@@ -44,7 +44,7 @@ public class MatchServiceImpl implements MatchService {
     public MatchDto create(MatchDto matchDto) {
         Match match = new Match();
         match.setName(matchDto.getNameDto());
-        match.setMatchDate(matchDto.getMatchDate());
+        match.setMatchDate(matchDto.getMatchDateDto());
 
         if (matchDto.getStadium() != null && matchDto.getStadium().getId() != null) {
             Stadium stadium = stadiumRepository.findById(matchDto.getStadium().getId())
@@ -52,12 +52,10 @@ public class MatchServiceImpl implements MatchService {
             match.setStadium(stadium);
         }
 
-        if (matchDto.getReferees() != null) {
-            List<Long> ids = matchDto.getReferees().stream()
-                    .map(RefereeDto::getId)
-                    .collect(Collectors.toList());
-            List<Referee> referees = refereeRepository.findAllById(ids);
-            match.setReferees(referees);
+        if (matchDto.getReferee() != null && matchDto.getReferee().getId() != null) {
+            Referee referee = refereeRepository.findById(matchDto.getReferee().getId())
+                    .orElseThrow(() -> new RuntimeException("Referee not found"));
+            match.setReferee(referee);
         }
 
         Match savedMatch = matchRepository.save(match);
@@ -73,16 +71,21 @@ public class MatchServiceImpl implements MatchService {
         MatchDto dto = new MatchDto();
         dto.setId(match.getId());
         dto.setNameDto(match.getName());
-        dto.setMatchDate(match.getMatchDate());
+        dto.setMatchDateDto(match.getMatchDate());
 
         if (match.getStadium() != null) {
-            dto.setStadium(new StadiumDto(match.getStadium().getId(), match.getStadium().getName()));
+            dto.setStadium(new StadiumDto(
+                    match.getStadium().getId(),
+                    match.getStadium().getName(),
+                    match.getStadium().getLocation()
+            ));
         }
 
-        if (match.getReferees() != null) {
-            dto.setReferees(match.getReferees().stream()
-                    .map(r -> new RefereeDto(r.getId(), r.getName()))
-                    .collect(Collectors.toList()));
+        if (match.getReferee() != null) {
+            dto.setReferee(new RefereeDto(
+                    match.getReferee().getId(),
+                    match.getReferee().getName()
+            ));
         }
         return dto;
     }

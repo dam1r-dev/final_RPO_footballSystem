@@ -6,13 +6,22 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StadiumMapper {
+
     public StadiumDto toDto(Stadium stadium) {
         if (stadium == null) return null;
-        return new StadiumDto(stadium.getId(), stadium.getName());
+        StadiumDto dto = new StadiumDto();
+        dto.setId(stadium.getId());
+        dto.setNameDto(stadium.getName());
+        dto.setLocationDto(stadium.getLocation());
+        return dto;
     }
 
     public Stadium toEntity(StadiumDto dto) {
         if (dto == null) return null;
-        return new Stadium(dto.getId(), dto.getNameDto());
+        Stadium stadium = new Stadium();
+        stadium.setId(dto.getId());
+        stadium.setName(dto.getNameDto());
+        stadium.setLocation(dto.getLocationDto());
+        return stadium;
     }
 }

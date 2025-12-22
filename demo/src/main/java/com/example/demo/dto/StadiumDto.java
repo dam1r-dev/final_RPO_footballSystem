@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class StadiumDto {
     private Long id;
     private String nameDto;
+    private String locationDto;
 }
