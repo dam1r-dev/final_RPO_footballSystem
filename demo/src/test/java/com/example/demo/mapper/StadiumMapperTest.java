@@ -1,0 +1,44 @@
+package com.example.demo.mapper;
+
+import com.example.demo.dto.StadiumDto;
+import com.example.demo.model.Stadium;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+
+@ActiveProfiles("test")
+@SpringBootTest
+public class StadiumMapperTest {
+
+    @Autowired
+    private StadiumMapper stadiumMapper;
+
+    @Test
+    void convertEntityToDto() {
+        Stadium stadium = new Stadium(1L, "Astana Arena", "Astana");
+
+        StadiumDto dto = stadiumMapper.toDto(stadium);
+
+        Assertions.assertNotNull(dto);
+        Assertions.assertEquals(stadium.getId(), dto.getId());
+        Assertions.assertEquals(stadium.getName(), dto.getNameDto());
+        Assertions.assertEquals(stadium.getLocation(), dto.getLocationDto());
+    }
+
+    @Test
+    void convertDtoToEntity() {
+        StadiumDto dto = new StadiumDto();
+        dto.setId(2L);
+        dto.setNameDto("Almaty Central");
+        dto.setLocationDto("Almaty");
+
+        Stadium stadium = stadiumMapper.toEntity(dto);
+
+        Assertions.assertNotNull(stadium);
+        Assertions.assertEquals(dto.getId(), stadium.getId());
+        Assertions.assertEquals(dto.getNameDto(), stadium.getName());
+        Assertions.assertEquals(dto.getLocationDto(), stadium.getLocation());
+    }
+}

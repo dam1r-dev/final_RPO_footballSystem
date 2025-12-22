@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+
+    <changeSet id="20231219-1" author="damir">
+        <createTable tableName="t_stadium">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="t_referee">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="t_match">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="t_name" type="VARCHAR(255)"/>
+            <column name="match_date" type="TIMESTAMP"/>
+            <column name="stadium_id" type="BIGINT">
+                <constraints foreignKeyName="fk_match_stadium" referencedTableName="t_stadium" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="t_match_referees">
+            <column name="match_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_match_ref" referencedTableName="t_match" referencedColumnNames="id"/>
+            </column>
+            <column name="referee_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_ref_match" referencedTableName="t_referee" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

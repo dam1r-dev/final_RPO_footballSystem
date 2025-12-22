@@ -12,9 +12,9 @@ import java.util.List;
 public class MatchDto {
     private Long id;
     private String nameDto;
-    private LocalDateTime matchDate;
+    private LocalDateTime matchDateDto;
 
     private StadiumDto stadium;
 
-    private List<RefereeDto> referees;
+    private RefereeDto referee;
 }

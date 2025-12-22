@@ -17,24 +17,19 @@ import java.util.List;
 public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "match_id")
     private Long id;
 
     @Column(name = "t_name")
     private String name;
 
-    @Column(name = "t_match_date")
+    @Column(name = "match_date")
     private LocalDateTime matchDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "stadium_id")
     private Stadium stadium;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "match_referee",
-            joinColumns = @JoinColumn(name = "match_id"),
-            inverseJoinColumns = @JoinColumn(name = "referee_id")
-    )
-    private List<Referee> referees;
+    @ManyToOne
+    @JoinColumn(name = "referee_id")
+    private Referee referee;
 }

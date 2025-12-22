@@ -15,9 +15,9 @@ import lombok.Setter;
 public class Referee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "referee_id")
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "t_name")
+    @Column(name = "name", nullable = false)
     private String name;
 }

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Football Admin Panel</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background: #f4f4f4; }
+        .card { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        input, select { display: block; margin: 10px 0; padding: 8px; width: 300px; }
+        button { padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #218838; }
+    </style>
+</head>
+<body>
+
+<h1>Управление Футболом </h1>
+
+<div class="card">
+    <h3>1. Добавить стадион</h3>
+    <input type="text" id="stadiumName" placeholder="Название стадиона">
+    <button onclick="createStadium()">Создать стадион</button>
+    <p id="stadiumStatus"></p>
+</div>
+
+<div class="card">
+    <h3>2. Создать матч</h3>
+    <input type="text" id="matchName" placeholder="Название матча (напр. El Clasico)">
+    <input type="datetime-local" id="matchDate">
+    <input type="number" id="stadiumId" placeholder="ID стадиона (напр. 1)">
+    <button onclick="createMatch()">Создать матч</button>
+    <p id="matchStatus"></p>
+</div>
+
+<script>
+
+    const username = 'damir';
+    const password = '123';
+    const authHeader = 'Basic ' + btoa(username + ":" + password);
+
+    async function createStadium() {
+        const name = document.getElementById('stadiumName').value;
+        const response = await fetch('http://localhost:8080/api/stadiums', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': authHeader
+            },
+            body: JSON.stringify({ name: name })
+        });
+        const data = await response.json();
+        document.getElementById('stadiumStatus').innerText = "Создан стадион с ID: " + data.id;
+    }
+
+    async function createMatch() {
+        const matchData = {
+            nameDto: document.getElementById('matchName').value,
+            matchDate: document.getElementById('matchDate').value + ":00", // Формат даты
+            stadium: { id: document.getElementById('stadiumId').value },
+            referees: []
+        };
+
+        const response = await fetch('http://localhost:8080/api/matches', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': authHeader
+            },
+            body: JSON.stringify(matchData)
+        });
+
+        if (response.ok) {
+            document.getElementById('matchStatus').innerText = "Матч успешно создан!";
+        } else {
+            const err = await response.json();
+            document.getElementById('matchStatus').innerText = "Ошибка: " + err.message;
+        }
+    }
+</script>
+</body>
+</html>
